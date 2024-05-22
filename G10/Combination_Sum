@@ -1,0 +1,121 @@
+# Combination Sum
+class Solution {
+public:
+    vector<vector<int>>ans;
+
+    void Solve(vector<int>&current, int index, int sum, vector<int>&a, int target) {
+
+        if (sum == target) {
+            ans.push_back(current);
+            return;
+        } else if (sum > target) {
+            return;
+        }
+
+
+
+        for (int i = index; i < a.size(); i++) {
+            current.push_back(a[i]);
+            sum += a[i];
+            Solve(current, i, sum, a, target);
+            sum -= a[i];
+            current.pop_back();
+        }
+
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& a, int target) {
+        vector<int>current;
+        int sum = 0;
+        Solve(current, 0, sum, a, target);
+        return ans;
+    }
+};
+
+
+# Combination Sum II
+class Solution {
+public:
+void FindSum(vector<int>candidates, int target, vector<vector<int>>&ans, vector<int>result, int sum, int index) {
+        //Base Case:
+        if (sum >= target) {
+
+            if (sum == target) {
+                ans.push_back(result);
+            }
+            return;
+        }
+
+
+        for (int i = index; i < candidates.size(); i++) {
+            result.push_back(candidates[i]);
+            sum += candidates[i];
+            FindSum(candidates, target, ans, result, sum, i+1);
+            /*
+
+                Two case will be there:
+
+                i am not able to make sum==target
+                so in this scenario what i will do is i will elimate the last element and move on.
+
+                the sum was equal to target;
+
+                2 + 2 + 2+ 2 =8
+                sum=8 and target =8;
+
+                ek ans = 2 + 2+2 next elementk check karo
+            */
+            result.pop_back();
+            sum -= candidates[i];
+        }
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>>ans;
+        vector<int>result;
+        FindSum(candidates, target, ans, result, 0, 0);
+        return ans;
+    }
+};
+
+# Combination Sum 3
+
+
+
+
+class Solution {
+public:
+    vector<vector<int>>ans;
+
+    void Solve(vector<int>&current, int k, int n, int sum, int size, int element ) {
+
+        if (size == k and sum == n) {
+            ans.push_back(current);
+            return;
+        } else if (sum > n or size > k) {
+            return;
+        }
+
+
+
+        for (int i = element; i <= 9; i++) {
+            current.push_back(i);
+            sum += i;
+            Solve(current, k, n, sum, size + 1, i + 1);
+
+            sum -= i;
+            current.pop_back();
+        }
+
+    }
+
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int>current;
+        int sum = 0;
+        Solve(current, k, n, 0, 0, 1);
+        return ans;
+    }
+};
+
+
+
+
